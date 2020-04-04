@@ -12,6 +12,7 @@ import Home from '../Dashboard/Dashboard';
 
 
 import AuthLoadingScreen from '../../screens/AuthLoading/AuthLoading';
+import GoogleMap from '../Dashboard/GoogleMap/GoogleMap';
 
 
 
@@ -102,7 +103,8 @@ class DrawerComponent extends React.Component {
 
 const DrawerNavigator = createDrawerNavigator({
     Home: Home,
-    SignIn: SignIn
+    SignIn: SignIn,
+    GoogleMap: GoogleMap
 
 
 },
@@ -121,7 +123,8 @@ const DrawerNavigator = createDrawerNavigator({
 
 const AuthStackNavigator = createDrawerNavigator({
     SignIn: SignIn,
-    Home: Home
+    Home: Home,
+    GoogleMap: GoogleMap
 },
 );
 

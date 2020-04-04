@@ -1,5 +1,6 @@
 package com.adminpanel;
 
+import com.oblador.vectoricons.VectorIconsPackage;
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.ReactRootView;
@@ -21,6 +22,7 @@ public class MainActivity extends ReactActivity {
       @Override
       protected ReactRootView createRootView() {
         return new RNGestureHandlerEnabledRootView(MainActivity.this);
+
       }
     };
   }

@@ -19,10 +19,10 @@ import {
 } from 'native-base';
 
 import { SearchBar } from 'react-native-elements';
-import Geolocation from '@react-native-community/geolocation';
-import MapView from 'react-native-maps';
 import { orange } from '../../ColorTheme/color';
 
+import Geolocation from '@react-native-community/geolocation';
+import MapView from 'react-native-maps';
 
 
 
@@ -46,12 +46,12 @@ export default class GoogleMap extends Component {
     }
 
 
-    search = () => {
-        let { showSearchBar } = this.state;
-        this.setState({
-            showSearchBar: !showSearchBar,
-        });
-    }
+    // search = () => {
+    //     let { showSearchBar } = this.state;
+    //     this.setState({
+    //         showSearchBar: !showSearchBar,
+    //     });
+    // }
 
     componentDidMount() {
         this.getLocationHandler();
@@ -153,9 +153,6 @@ export default class GoogleMap extends Component {
 
                     <Right>
                         <View style={{ flexDirection: 'row' }}>
-                            <TouchableOpacity onPress={this.search}>
-                                <Icon style={{ color: orange, fontSize: 20, marginRight: '20%' }} type="EvilIcons" name="search" />
-                            </TouchableOpacity>
 
                             <TouchableOpacity onPress={this.getLocationHandler}>
                                 <Icon style={{ color: orange, fontSize: 20, marginLeft: 20 }} type="Ionicons" name="md-locate" />
@@ -182,7 +179,7 @@ export default class GoogleMap extends Component {
                     </MapView>
 
                     <Button onPress={() => this.props.navigation.navigate('AddNewAddress')} block style={{ backgroundColor: orange, position: 'absolute', bottom: '10%', width: '95%', alignSelf: 'center' }}>
-                        <Text style={{ color: 'white', fontWeight: 'bold' }}>FIND RESTAURANTS</Text>
+                        <Text style={{ color: 'white', fontWeight: 'bold' }}>PICK LOCATION</Text>
                     </Button>
                 </View>
 
