@@ -1,4 +1,111 @@
-//import liraries
+// {this.props.fetching ? <Spinner /> : finalArr.length > 0 ? finalArr.map((value, index) => {
+//     if (value) {
+//        var number = Number(5)
+//        var charges = number.toFixed(2)
+
+//    }
+//    // console.log(http://churppy.com/churppy/public/site/images/${value.business_logo})
+//    let headerObj = {
+//        image: http://churppy.com/public/site/images/${value.business_logo},
+//        duration: "25 Min",
+//        charges
+
+//    }
+//    return (
+//        <View
+//            style={{
+//                flexDirection: 'row',
+//                width: '100%',
+//                justifyContent: 'space-between',
+//                borderBottomColor: '#dddddd',
+//                borderBottomWidth: 2,
+
+//            }}>
+//            <View
+//                style={{
+//                    width: '24.5%',
+//                    // backgroundColor: '#f5f5f5',
+//                    paddingVertical: 10,
+//                    // borderBottomColor: '#dddddd',
+//                    // borderBottomWidth: 2,
+//                    paddingHorizontal: 5,
+//                    alignItems: 'center',
+//                    justifyContent: 'center'
+//                }}>
+//                <Image source={{ uri: http://churppy.com/public/site/images/${value.business_logo} }} style={{ height: 50, width: "100%" }} />
+//            </View>
+//            <View
+//                style={{
+//                    width: '24.5%',
+//                    // backgroundColor: '#f5f5f5',
+//                    paddingVertical: 10,
+//                    // borderBottomColor: '#dddddd',
+//                    // borderBottomWidth: 2,
+//                    paddingHorizontal: 5,
+//                    alignItems: 'center',
+//                    justifyContent: 'center'
+//                }}>
+//                <Text style={{ fontSize: 12, color: '#ac82bc', fontWeight: 'bold', fontFamily: "Poppins-Regular_0" }}>{value.business_title}</Text>
+//            </View>
+//            <View
+//                style={{
+//                    width: '24.5%',
+//                    // backgroundColor: '#f5f5f5',
+//                    paddingVertical: 10,
+//                    // borderBottomColor: '#dddddd',
+//                    // borderBottomWidth: 2,
+//                    paddingHorizontal: 5,
+//                    alignItems: 'center',
+//                    justifyContent: 'center'
+//                }}>
+//                <Text style={{ fontSize: 12, color: '#bdbdbd', fontWeight: 'bold', fontFamily: "Poppins-Regular_0" }}>{value.added_date}</Text>
+//            </View>
+//            <View
+//                style={{
+//                    width: '24.5%',
+//                    // backgroundColor: '#f5f5f5',
+//                    paddingVertical: 10,
+//                    // borderBottomColor: '#dddddd',
+//                    // borderBottomWidth: 2,
+//                    paddingHorizontal: 5,
+//                    alignItems: 'center',
+//                    justifyContent: 'center'
+//                }}>
+//                <Button
+//                //  onPress={() => { 
+//                    // this.props.navigation.navigate('Cart') 
+
+//                    // }} 
+//                    onPress={() => { 
+//                        console.log("value", value)
+//                        this.props.getCategories(value.merchant_id, headerObj) }}
+//                    success rounded style={{ width: '100%', justifyContent: 'center', height: 25 }}>
+//                    <Text style={{ fontSize: 12, color: '#fff', fontWeight: 'bold', fontFamily: "Poppins-Regular_0" }} >Place Order</Text>
+//                </Button>
+//                <Button onPress={() => {
+//                  this.removeFav(index)
+//                }} danger rounded style={{ width: '100%', justifyContent: 'center', height: 25, marginTop: 2 }}>
+//                    <Text style={{ fontSize: 12, color: '#fff', fontWeight: 'bold', fontFamily: "Poppins-Regular_0" }} >Remove</Text>
+//                </Button>
+//            </View>
+//        </View>
+//    )
+// }) : <Text style={{ textAlign: 'center' }}>There is no favourite</Text>}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Alert } from 'react-native';
 
@@ -13,7 +120,7 @@ import {
 import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
 import { orange } from '../ColorTheme/color'
-import { Table, TableWrapper, Row, Cell } from 'react-native-table-component'
+import { Table, Row, Rows } from 'react-native-table-component';
 
 
 export default class Dashboard extends Component {
@@ -21,12 +128,12 @@ export default class Dashboard extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            tableHead: ['id', 'Name', 'Lat', 'Long', 'Locate'],
+            tableHead: ['id', 'Name', 'Latitude', 'Longitude', 'Locate'],
             tableData: [
                 ['1', '2', '3', '4', '5'],
-                ['a', 'b', 'c', 'd', 'e'],
-                ['1', '2', '3', '4', '5'],
-                ['a', 'b', 'c', 'd', 'e']
+                ['a', 'b', 'c', 'd','5'],
+                ['1', '2', '3', '456\n789','4'],
+                ['a', 'b', 'c', 'd','e']
             ]
         }
     }
@@ -44,6 +151,7 @@ export default class Dashboard extends Component {
 
     render() {
         const state = this.state;
+
         const element = (data, index) => (
             <TouchableOpacity onPress={this.getLocation}>
                 <View style={styles.btn}>
@@ -80,19 +188,9 @@ export default class Dashboard extends Component {
 
 
                 <View style={styles.containerTable}>
-                    <Table borderStyle={{ borderColor: 'transparent' }}>
+                    <Table borderStyle={{ borderWidth: 1, borderColor: '#c8e1ff' }}>
                         <Row data={state.tableHead} style={styles.head} textStyle={styles.text} />
-                        {
-                            state.tableData.map((rowData, index) => (
-                                <TableWrapper key={index} style={styles.row}>
-                                    {
-                                        rowData.map((cellData, cellIndex) => (
-                                            <Cell key={cellIndex} data={cellIndex === 4 ? element(cellData, index) : cellData} textStyle={styles.text} />
-                                        ))
-                                    }
-                                </TableWrapper>
-                            ))
-                        }
+                        <Rows data={state.tableData} textStyle={styles.text} />
                     </Table>
                 </View>
 
@@ -117,12 +215,11 @@ const styles = StyleSheet.create({
         borderColor: orange,
         borderWidth: 1,
     },
-    containerTable: { flex: 1, padding: 16, paddingTop: 30, backgroundColor: '#fff' },
-    head: { height: 40, backgroundColor: '#808B97' },
-    text: { margin: 6 },
-    row: { flexDirection: 'row', backgroundColor: '#FFF1C1' },
-    btn: { width: 58, height: 18, backgroundColor: '#78B7BB', borderRadius: 2 },
-    btnText: { textAlign: 'center', color: '#fff' }
+
+    containerTable: { flex: 1, padding: 1, paddingTop:30, backgroundColor: '#fff' },
+    head: { height: 40, backgroundColor: '#f1f8ff' },
+    text: { textAlign: 'center', justifyContent: 'space-around' }
+
 
 });
 
