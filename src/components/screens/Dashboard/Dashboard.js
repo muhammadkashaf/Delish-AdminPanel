@@ -129,12 +129,7 @@ export default class Dashboard extends Component {
         super(props);
         this.state = {
             tableHead: ['id', 'Name', 'Latitude', 'Longitude', 'Locate'],
-            tableData: [
-                ['1', '2', '3', '4', '5'],
-                ['a', 'b', 'c', 'd','5'],
-                ['1', '2', '3', '456\n789','4'],
-                ['a', 'b', 'c', 'd','e']
-            ]
+            tableData: []
         }
     }
 
@@ -147,6 +142,41 @@ export default class Dashboard extends Component {
     static navigationOptions = {
         drawerLabel: () => null,
     };
+
+
+
+    componentDidMount() {
+
+
+        const formData = new FormData();
+
+        formData.append("action", "show_restaurants")
+
+        axios.post('http://www.hnh5.xyz/delish/api/restaurants.php', formData)
+            .then(res => {
+                console.log(res);
+                console.log(res.data.status);
+                const formattedData = generateTableData(res)
+                console.log('res');
+                
+                if (res.data.status === true) {
+                    this.setState({ tableData: formattedData })
+                }
+                else {
+                    null
+                }
+            })
+    }
+
+
+    generateTableData(data) {
+        // let tableData = [];
+        // for (let d of data) {
+            console.log('func');
+        //     tableData.push(keys.map(key => d[key]))
+        // }
+        return tableData;
+    }
 
 
     render() {
@@ -187,13 +217,15 @@ export default class Dashboard extends Component {
                 <View style={styles.stroke}></View>
 
 
-                <View style={styles.containerTable}>
+
+
+
+                {this.state.tableData ? <View style={styles.containerTable}>
                     <Table borderStyle={{ borderWidth: 1, borderColor: '#c8e1ff' }}>
                         <Row data={state.tableHead} style={styles.head} textStyle={styles.text} />
                         <Rows data={state.tableData} textStyle={styles.text} />
                     </Table>
-                </View>
-
+                </View> : null}
 
 
 
@@ -216,7 +248,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
     },
 
-    containerTable: { flex: 1, padding: 1, paddingTop:30, backgroundColor: '#fff' },
+    containerTable: { flex: 1, padding: 1, paddingTop: 30, backgroundColor: '#fff' },
     head: { height: 40, backgroundColor: '#f1f8ff' },
     text: { textAlign: 'center', justifyContent: 'space-around' }
 
