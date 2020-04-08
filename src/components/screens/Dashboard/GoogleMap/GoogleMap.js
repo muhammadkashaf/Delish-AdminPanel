@@ -121,7 +121,7 @@ export default class GoogleMap extends Component {
 
                 <Header style={{ backgroundColor: '#FFFF' }} noShadow>
                     <Left>
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate('MyAddress')}>
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate('AuthLoading')}>
                             <Icon style={{ color: orange, fontSize: 17 }} type="AntDesign" name="arrowleft" />
                         </TouchableOpacity>
                     </Left>

@@ -1,111 +1,3 @@
-// {this.props.fetching ? <Spinner /> : finalArr.length > 0 ? finalArr.map((value, index) => {
-//     if (value) {
-//        var number = Number(5)
-//        var charges = number.toFixed(2)
-
-//    }
-//    // console.log(http://churppy.com/churppy/public/site/images/${value.business_logo})
-//    let headerObj = {
-//        image: http://churppy.com/public/site/images/${value.business_logo},
-//        duration: "25 Min",
-//        charges
-
-//    }
-//    return (
-//        <View
-//            style={{
-//                flexDirection: 'row',
-//                width: '100%',
-//                justifyContent: 'space-between',
-//                borderBottomColor: '#dddddd',
-//                borderBottomWidth: 2,
-
-//            }}>
-//            <View
-//                style={{
-//                    width: '24.5%',
-//                    // backgroundColor: '#f5f5f5',
-//                    paddingVertical: 10,
-//                    // borderBottomColor: '#dddddd',
-//                    // borderBottomWidth: 2,
-//                    paddingHorizontal: 5,
-//                    alignItems: 'center',
-//                    justifyContent: 'center'
-//                }}>
-//                <Image source={{ uri: http://churppy.com/public/site/images/${value.business_logo} }} style={{ height: 50, width: "100%" }} />
-//            </View>
-//            <View
-//                style={{
-//                    width: '24.5%',
-//                    // backgroundColor: '#f5f5f5',
-//                    paddingVertical: 10,
-//                    // borderBottomColor: '#dddddd',
-//                    // borderBottomWidth: 2,
-//                    paddingHorizontal: 5,
-//                    alignItems: 'center',
-//                    justifyContent: 'center'
-//                }}>
-//                <Text style={{ fontSize: 12, color: '#ac82bc', fontWeight: 'bold', fontFamily: "Poppins-Regular_0" }}>{value.business_title}</Text>
-//            </View>
-//            <View
-//                style={{
-//                    width: '24.5%',
-//                    // backgroundColor: '#f5f5f5',
-//                    paddingVertical: 10,
-//                    // borderBottomColor: '#dddddd',
-//                    // borderBottomWidth: 2,
-//                    paddingHorizontal: 5,
-//                    alignItems: 'center',
-//                    justifyContent: 'center'
-//                }}>
-//                <Text style={{ fontSize: 12, color: '#bdbdbd', fontWeight: 'bold', fontFamily: "Poppins-Regular_0" }}>{value.added_date}</Text>
-//            </View>
-//            <View
-//                style={{
-//                    width: '24.5%',
-//                    // backgroundColor: '#f5f5f5',
-//                    paddingVertical: 10,
-//                    // borderBottomColor: '#dddddd',
-//                    // borderBottomWidth: 2,
-//                    paddingHorizontal: 5,
-//                    alignItems: 'center',
-//                    justifyContent: 'center'
-//                }}>
-//                <Button
-//                //  onPress={() => { 
-//                    // this.props.navigation.navigate('Cart') 
-
-//                    // }} 
-//                    onPress={() => { 
-//                        console.log("value", value)
-//                        this.props.getCategories(value.merchant_id, headerObj) }}
-//                    success rounded style={{ width: '100%', justifyContent: 'center', height: 25 }}>
-//                    <Text style={{ fontSize: 12, color: '#fff', fontWeight: 'bold', fontFamily: "Poppins-Regular_0" }} >Place Order</Text>
-//                </Button>
-//                <Button onPress={() => {
-//                  this.removeFav(index)
-//                }} danger rounded style={{ width: '100%', justifyContent: 'center', height: 25, marginTop: 2 }}>
-//                    <Text style={{ fontSize: 12, color: '#fff', fontWeight: 'bold', fontFamily: "Poppins-Regular_0" }} >Remove</Text>
-//                </Button>
-//            </View>
-//        </View>
-//    )
-// }) : <Text style={{ textAlign: 'center' }}>There is no favourite</Text>}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Alert } from 'react-native';
 
@@ -118,9 +10,8 @@ import {
 ;
 
 import axios from 'axios';
-import AsyncStorage from '@react-native-community/async-storage';
 import { orange } from '../ColorTheme/color'
-import { Table, Row, Rows } from 'react-native-table-component';
+import { Table, Row, Rows, TableWrapper, Cell } from 'react-native-table-component';
 
 
 export default class Dashboard extends Component {
@@ -128,16 +19,15 @@ export default class Dashboard extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            tableHead: ['id', 'Name', 'Latitude', 'Longitude'],
+            tableHead: ['id', 'Name', 'Latitude', 'Longitude', 'Locate'],
             tableValues: []
         }
     }
 
 
-    // getLocation = () => {
-    //     // Alert.alert(`This is row ${index + 1}`);
-    //     this.props.navigation.navigate('GoogleMap')
-    // }
+    getLocation = () => {
+        this.props.navigation.navigate('GoogleMap')
+    }
 
     static navigationOptions = {
         drawerLabel: () => null,
@@ -156,7 +46,7 @@ export default class Dashboard extends Component {
             .then(res => {
                 console.log('res.data', res.data);
                 console.log('res.data.data', res.data.data);
-                let formattedData = this.generateTableData(res.data.data, ['id', 'name', 'latitude', 'longitude']);
+                let formattedData = this.generateTableData(res.data.data, ['id', 'name', 'latitude', 'longitude', '']);
                 this.setState({ tableValues: formattedData })
             })
     }
@@ -176,6 +66,15 @@ export default class Dashboard extends Component {
     render() {
         const state = this.state;
 
+
+
+        const element = (data, index) => (
+            <TouchableOpacity onPress={() => this.getLocation()}>
+                <View style={styles.btn}>
+                    <Text style={styles.btnText}>locate</Text>
+                </View>
+            </TouchableOpacity>
+        );
 
         return (
 
@@ -207,11 +106,24 @@ export default class Dashboard extends Component {
 
 
                 {this.state.tableValues ? <View style={styles.containerTable}>
+
                     <Table borderStyle={{ borderWidth: 1, borderColor: '#c8e1ff' }}>
                         <Row data={state.tableHead} style={styles.head} textStyle={styles.text} />
-                        <Rows data={state.tableValues} textStyle={styles.text} />
+                        {
+                            state.tableValues.map((rowData, index) => (
+                                <TableWrapper key={index} style={styles.row}>
+                                    {
+                                        rowData.map((cellData, cellIndex) => (
+                                            <Cell key={cellIndex} data={cellIndex === 4 ? element(cellData, index) : cellData} textStyle={styles.text} />
+                                        ))
+                                    }
+                                </TableWrapper>
+                            ))
+                        }
                     </Table>
-                </View> : null}
+
+                </View > : null
+                }
 
 
 
@@ -234,10 +146,12 @@ const styles = StyleSheet.create({
         borderWidth: 1,
     },
 
-    containerTable: { flex: 1, padding: 1, paddingTop: 30, backgroundColor: '#fff' },
+    containerTable: { flex: 1, padding: 15, paddingTop: 30, backgroundColor: '#fff' },
     head: { height: 40, backgroundColor: '#f1f8ff' },
-    text: { textAlign: 'center', justifyContent: 'space-around' }
-
+    text: { margin: 6, textAlign: 'center' },
+    row: { flexDirection: 'row' },
+    btn: { width: 58, height: 18, backgroundColor: '#78B7BB', borderRadius: 2, alignSelf: 'center' },
+    btnText: { textAlign: 'center', color: '#fff' }
 
 });
 
