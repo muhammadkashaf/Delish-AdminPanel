@@ -154,10 +154,9 @@ export default class Dashboard extends Component {
 
         axios.post('http://www.hnh5.xyz/delish/api/restaurants.php', formData)
             .then(res => {
-                console.log(res);
-                console.log(res.data.status);
-                let formattedData = this.generateTableData(res.data, ['id', 'name', 'latitude', 'longitude']);
-                console.log(this.generateTableData(res));
+                console.log('res.data', res.data);
+                console.log('res.data.data', res.data.data);
+                let formattedData = this.generateTableData(res.data.data, ['id', 'name', 'latitude', 'longitude']);
                 this.setState({ tableValues: formattedData })
             })
     }
