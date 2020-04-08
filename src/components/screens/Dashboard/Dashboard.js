@@ -128,16 +128,16 @@ export default class Dashboard extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            tableHead: ['id', 'Name', 'Latitude', 'Longitude', 'Locate'],
-            tableData: []
+            tableHead: ['id', 'Name', 'Latitude', 'Longitude'],
+            tableValues: []
         }
     }
 
 
-    getLocation = () => {
-        // Alert.alert(`This is row ${index + 1}`);
-        this.props.navigation.navigate('GoogleMap')
-    }
+    // getLocation = () => {
+    //     // Alert.alert(`This is row ${index + 1}`);
+    //     this.props.navigation.navigate('GoogleMap')
+    // }
 
     static navigationOptions = {
         drawerLabel: () => null,
@@ -156,39 +156,26 @@ export default class Dashboard extends Component {
             .then(res => {
                 console.log(res);
                 console.log(res.data.status);
-                const formattedData = generateTableData(res)
-                console.log('res');
-                
-                if (res.data.status === true) {
-                    this.setState({ tableData: formattedData })
-                }
-                else {
-                    null
-                }
+                let formattedData = this.generateTableData(res.data, ['id', 'name', 'latitude', 'longitude']);
+                console.log(this.generateTableData(res));
+                this.setState({ tableValues: formattedData })
             })
     }
 
 
-    generateTableData(data) {
-        // let tableData = [];
-        // for (let d of data) {
-            console.log('func');
-        //     tableData.push(keys.map(key => d[key]))
-        // }
+
+
+    generateTableData(data, keys) {
+        let tableData = [];
+        for (let d of data) {
+            tableData.push(keys.map(key => d[key]))
+        }
         return tableData;
     }
 
 
     render() {
         const state = this.state;
-
-        const element = (data, index) => (
-            <TouchableOpacity onPress={this.getLocation}>
-                <View style={styles.btn}>
-                    <Text style={styles.btnText}>Locate</Text>
-                </View>
-            </TouchableOpacity>
-        );
 
 
         return (
@@ -220,10 +207,10 @@ export default class Dashboard extends Component {
 
 
 
-                {this.state.tableData ? <View style={styles.containerTable}>
+                {this.state.tableValues ? <View style={styles.containerTable}>
                     <Table borderStyle={{ borderWidth: 1, borderColor: '#c8e1ff' }}>
                         <Row data={state.tableHead} style={styles.head} textStyle={styles.text} />
-                        <Rows data={state.tableData} textStyle={styles.text} />
+                        <Rows data={state.tableValues} textStyle={styles.text} />
                     </Table>
                 </View> : null}
 
