@@ -18,7 +18,6 @@ import {
     Right
 } from 'native-base';
 
-import { SearchBar } from 'react-native-elements';
 import { orange } from '../../ColorTheme/color';
 
 import Geolocation from '@react-native-community/geolocation';
@@ -28,30 +27,28 @@ import MapView from 'react-native-maps';
 
 
 export default class GoogleMap extends Component {
+    constructor(props) {
+        super(props)
+
+
+        this.state = {
+            focusedlocation: {
+                latitude: 0,
+                longitude: 0,
+                latitudeDelta: 0.0122,
+                longitudeDelta: Dimensions.get("window").width / Dimensions.get("window").height * 0.0122
+            },
+
+            locationChosen: false,
+        }
+    }
 
     static navigationOptions = {
         drawerLabel: () => null,
     };
 
-    state = {
-        focusedlocation: {
-            latitude: 0,
-            longitude: 0,
-            latitudeDelta: 0.0122,
-            longitudeDelta: Dimensions.get("window").width / Dimensions.get("window").height * 0.0122
-        },
-        search: '',
-        showSearchBar: false,
-        locationChosen: false,
-    }
 
 
-    // search = () => {
-    //     let { showSearchBar } = this.state;
-    //     this.setState({
-    //         showSearchBar: !showSearchBar,
-    //     });
-    // }
 
     componentDidMount() {
         this.getLocationHandler();
@@ -59,12 +56,11 @@ export default class GoogleMap extends Component {
 
 
 
-    updateSearch = search => {
-        this.setState({ search });
-    };
-
     pickLocationHandler = event => {
+
+
         const coords = event.nativeEvent.coordinate;
+        console.log('coords***', coords);
         this.map.animateToRegion({
             ...this.state.focusedlocation,
             latitude: coords.latitude,
@@ -76,14 +72,22 @@ export default class GoogleMap extends Component {
                     ...prevState.focusedlocation,
                     latitude: coords.latitude,
                     longitude: coords.longitude
+
                 },
                 locationChosen: true
             };
         });
     }
 
+
+
+
+
     getLocationHandler = () => {
         Geolocation.getCurrentPosition(pos => {
+            console.log('latitude****', pos.coords.latitude, 'longitude****', pos.coords.longitude);
+
+
             const coordsEvent = {
                 nativeEvent: {
                     coordinate: {
@@ -104,9 +108,10 @@ export default class GoogleMap extends Component {
 
 
 
+
     render() {
         let marker = null;
-        const { showSearchBar, search } = this.state;
+
 
 
         if (this.state.locationChosen) {
@@ -130,23 +135,10 @@ export default class GoogleMap extends Component {
 
 
                         <View>
-                            {!showSearchBar ? (
-                                <Title style={{ color: 'black', right: '10%' }}>Current Location</Title>
 
-                            ) : (
-                                    <SearchBar
-                                        placeholder="Type Here..."
-                                        onChangeText={this.updateSearch}
-                                        value={search}
-                                        containerStyle={{ backgroundColor: 'white', width: 200 }}
-                                        inputContainerStyle={{ backgroundColor: 'white' }}
-                                        placeholderTextColor='#86939e'
-                                        searchIcon={false}
-                                        inputStyle={{ color: 'black' }}
+                            <Title style={{ color: 'black', right: '10%' }}>Current Location</Title>
 
 
-                                    />
-                                )}
                         </View>
                     </Body>
 
@@ -178,12 +170,12 @@ export default class GoogleMap extends Component {
                         {marker}
                     </MapView>
 
-                    <Button onPress={() => this.props.navigation.navigate('AddNewAddress')} block style={{ backgroundColor: orange, position: 'absolute', bottom: '10%', width: '95%', alignSelf: 'center' }}>
+                    <Button onPress={() => this.props.navigation.navigate('Home', { maplatitude: this.state.latitude, maplongitude: this.state.longitude })} block style={{ backgroundColor: orange, position: 'absolute', bottom: '10%', width: '95%', alignSelf: 'center' }}>
                         <Text style={{ color: 'white', fontWeight: 'bold' }}>PICK LOCATION</Text>
                     </Button>
                 </View>
 
-            </View>
+            </View >
         );
     }
 }
