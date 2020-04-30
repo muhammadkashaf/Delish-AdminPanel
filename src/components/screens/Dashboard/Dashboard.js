@@ -7,8 +7,6 @@ import {
     Title,
 } from 'native-base';
 
-;
-
 import axios from 'axios';
 import { orange } from '../ColorTheme/color'
 import { Table, Row, Rows, TableWrapper, Cell } from 'react-native-table-component';

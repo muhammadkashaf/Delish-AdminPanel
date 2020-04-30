@@ -22,7 +22,7 @@ import { orange } from '../../ColorTheme/color';
 
 import Geolocation from '@react-native-community/geolocation';
 import MapView from 'react-native-maps';
-
+import { connect } from 'react-redux';
 
 
 
@@ -170,7 +170,7 @@ export default class GoogleMap extends Component {
                         {marker}
                     </MapView>
 
-                    <Button onPress={() => this.props.navigation.navigate('Home', { maplatitude: this.state.latitude, maplongitude: this.state.longitude })} block style={{ backgroundColor: orange, position: 'absolute', bottom: '10%', width: '95%', alignSelf: 'center' }}>
+                    <Button onPress={() => this.props.navigation.navigate('Home')} block style={{ backgroundColor: orange, position: 'absolute', bottom: '10%', width: '95%', alignSelf: 'center' }}>
                         <Text style={{ color: 'white', fontWeight: 'bold' }}>PICK LOCATION</Text>
                     </Button>
                 </View>
